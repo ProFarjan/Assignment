@@ -20,13 +20,14 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
 		rel="stylesheet"
 	/>
-	<!-- STYLE CSS -->
-	<link
-		href="<?=site_url('assets/css/style.css');?>"
-		rel="stylesheet"
-	/>
 	<!-- SELECT2 CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+	<!-- STYLE CSS -->
+	<link
+			href="<?=site_url('assets/css/style.css');?>"
+			rel="stylesheet"
+	/>
 
 	<!-- JQuery -->
 	<script
@@ -322,7 +323,9 @@
 								</div>
 
 								<div class="mt-4 pt-2">
-									<input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+									<button class="btn btn-primary btn-lg ladda-button" id="submit-btn" data-style="expand-left" type="submit">
+										<span class="ladda-label">Submit</span>
+									</button>
 								</div>
 
 							</form>
@@ -337,7 +340,6 @@
 
 		var board_list = exam_list = ins_list = [];
 		$(function () {
-			$("#registration-form").validate();
 
 			commonData('get_board_list', '.edu_board');
 			commonData('get_exam_list', '.edu_exam');
@@ -364,26 +366,31 @@
 				}
 			});
 
-			$('#registration-form').submit(function (e) {
-				e.preventDefault();
-				let form_data = new FormData(this);
-				$.ajax({
-					cache: false,
-					contentType: false,
-					processData: false,
-					data: form_data,
-					type: 'POST',
-					url: '<?=site_url("save_data");?>',
-					success: (res) => {
-						if (res) {
-							console.log(res);
-						}
-					},
-					error: (err) => {
-						alert(err.message);
-					}
-				});
+			//$('#registration-form').submit(function (e) {
+				$("#registration-form").validate({
+					submitHandler: function (form) {
 
+						e.preventDefault();
+
+						let form_data = new FormData(this);
+						$.ajax({
+							cache: false,
+							contentType: false,
+							processData: false,
+							data: form_data,
+							type: 'POST',
+							url: '<?=site_url("save_data");?>',
+							success: (res) => {
+								if (res) {
+									console.log(res);
+								}
+							},
+							error: (err) => {
+								alert(err.message);
+							}
+						});
+
+					}
 			});
 
 		});

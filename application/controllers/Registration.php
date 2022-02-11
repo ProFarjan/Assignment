@@ -2,6 +2,11 @@
 
 class Registration extends CI_Controller {
 
+	public function __construct(){
+		parent::__construct();
+		$this->load->library('form_validation');
+	}
+
 	public function index () {
 
 		$this->db->from('db_division');
@@ -124,6 +129,43 @@ class Registration extends CI_Controller {
 
 		}
 
+	}
+
+	function update () {
+		if ($this->session->has_userdata('is_login')) {
+			$this->form_validation->set_rules('applicant_name', 'Applicant Name', 'required');
+			$this->form_validation->set_rules('email_address', 'Email', 'required');
+			$this->form_validation->set_rules('division_edit', 'Division', 'required');
+			$this->form_validation->set_rules('district_edit', 'District', 'required');
+			$this->form_validation->set_rules('upazila_edit', 'Upazila', 'required');
+			$this->form_validation->set_rules('full_address', 'address', 'required');
+			$this->form_validation->set_rules('id', 'ID', 'required');
+
+			$name = $this->input->post('applicant_name');
+			$email = $this->input->post('email_address');
+			$division = $this->input->post('division_edit');
+			$district = $this->input->post('district_edit');
+			$upazila = $this->input->post('upazila_edit');
+			$address = $this->input->post('full_address');
+			$id = $this->input->post('id');
+
+			if ($this->form_validation->run() == false){
+				$this->form_validation->set_message('form_invalid','Form All Fields Must Be Required!!');
+				echo false;
+			}else{
+				$this->db->where('id',$id);
+				$this->db->update('db_registration', [
+					'name' => $name,
+					'email' => $email,
+					'division_id' => $division,
+					'district_id' => $district,
+					'upazila_id' => $upazila,
+					'address' => $address,
+					'updated_at' => date('Y-m-d H:i:s')
+				]);
+				echo true;
+			}
+		}
 	}
 
 }

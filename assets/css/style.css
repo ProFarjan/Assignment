@@ -19,7 +19,7 @@
 	top: 13px;
 }
 
-.form-outline .form-control.form-control-lg, textarea {
+.form-outline .form-control.form-control-lg, textarea{
 	border: 1px solid !important;
 }
 
@@ -28,8 +28,25 @@
 	padding-top: 0 !important;
 }
 
-textarea{
+textarea {
 	margin-top: 2px !important;
+}
+
+.form-control:focus {
+	border: 1px solid #1266f1 !important;
+}
+
+.form-label {
+	background: #fff !important;
+	padding: 0 0px !important;
+	font-weight: 700;
+	margin: 0;
+}
+
+.select1 {
+	width: 100%;
+	font-size: 18px;
+	padding: 6px 0;
 }
 
 .select2-container .select2-selection--single {

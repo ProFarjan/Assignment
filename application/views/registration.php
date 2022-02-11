@@ -1,55 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Registration Form</title>
-
-	<!-- Font Awesome -->
-	<link
-		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-		rel="stylesheet"
-	/>
-	<!-- Google Fonts -->
-	<link
-		href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-		rel="stylesheet"
-	/>
-	<!-- MDB -->
-	<link
-		href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
-		rel="stylesheet"
-	/>
-	<!-- SELECT2 CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-	<!-- STYLE CSS -->
-	<link
-			href="<?=site_url('assets/css/style.css');?>"
-			rel="stylesheet"
-	/>
-
-	<!-- JQuery -->
-	<script
-		src="https://code.jquery.com/jquery-3.6.0.min.js"
-	></script>
-
-	<!-- MDB -->
-	<script
-		type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"
-	></script>
-
-	<!-- SELECT2 JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"
-	></script>
-
-	<!-- JQUERY VALIDATION -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"
-	></script>
-</head>
+<?php $this->load->view('header');?>
 <body>
 	<section class="gradient-custom">
 		<div class="container py-5 h-100">
@@ -57,26 +6,30 @@
 				<div class="col-12 col-lg-9 col-xl-7">
 					<div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
 						<div class="card-body p-4 p-md-5">
-							<h3 class="mb-4 pb-2 pb-md-0 mb-md-5" style="text-align: center;">Registration Form</h3>
+							<h3 class="mb-0" style="text-align: center;">Registration Form</h3>
+							<div style="text-align: center;">
+								<a href="<?=site_url('login');?>" target="_blank" class="btn btn-sm btn-info">Admin Login</a>
+							</div>
 							<form class="needs-validation" id="registration-form" novalidate>
 
 								<div class="row">
 									<h5>Basic Information</h5>
 									<hr/>
-									<div class="col-md-12 mb-4">
+									<div class="col-md-12 mb-2">
 
 										<div class="form-outline">
-											<input type="text" id="applicant_name" name="applicant_name" class="form-control form-control-lg" required minlength="3" />
 											<label class="form-label" for="applicant_name">Applicant's Name</label>
+											<input type="text" id="applicant_name" name="applicant_name" class="form-control form-control-lg" required minlength="3" />
 										</div>
 
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-6 mb-4 d-flex align-items-center">
+									<div class="col-md-6 mb-3 d-flex align-items-center">
 
 										<div class="form-outline w-100">
+											<label for="email_address" class="form-label">Email Address</label>
 											<input
 												type="email"
 												class="form-control form-control-lg"
@@ -84,28 +37,29 @@
 												name="email_address"
 												required
 											/>
-											<label for="email_address" class="form-label">Email Address</label>
 										</div>
 
 									</div>
-									<div class="col-md-6 mb-4 d-flex align-items-center">
+									<div class="col-md-6 mb-3 d-flex align-items-center">
 
 										<div class="form-outline w-100">
+											<label for="mailing_address" class="form-label">Phone Number</label>
 											<input
-												type="email"
+												type="text"
 												class="form-control form-control-lg"
 												id="mailing_address"
 												name="mailing_address"
+												maxlength="15"
+												min="10"
 												required
 											/>
-											<label for="mailing_address" class="form-label">Mailing Address</label>
 										</div>
 
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-4 mb-3 pb-2">
+									<div class="col-md-4 mb-2 pb-2">
 
 										<select class="select2" name="division" id="division" data-placeholder="Division" required onchange="javascript:getDistrictList(this);">
 											<option value=""></option>
@@ -115,14 +69,14 @@
 										</select>
 
 									</div>
-									<div class="col-md-4 mb-3 pb-2">
+									<div class="col-md-4 mb-2 pb-2">
 
 										<select class="select2" name="district" id="district" data-placeholder="District" required onchange="javascript:getUpazilaList(this);">
 											<option value=""></option>
 										</select>
 
 									</div>
-									<div class="col-md-4 mb-3 pb-2">
+									<div class="col-md-4 mb-2 pb-2">
 
 										<select class="select2" name="upazila" id="upazila" data-placeholder="Upazila" required>
 											<option value=""></option>
@@ -132,10 +86,10 @@
 								</div>
 
 								<div class="row">
-									<div class="col-md-12 mb-4 d-flex align-items-center">
+									<div class="col-md-12 mb-2 d-flex align-items-center">
 										<div class="form-outline w-100">
-											<textarea class="form-control" id="full_address" name="full_address" rows="2" required minlength="6"></textarea>
 											<label class="form-label" for="full_address">Full Address</label>
+											<textarea class="form-control" id="full_address" name="full_address" rows="2" required minlength="6"></textarea>
 										</div>
 
 									</div>
@@ -198,23 +152,23 @@
 											<tbody>
 												<tr>
 													<td>
-														<select class="select2 edu_exam" name="exam[]" data-placeholder="Examination">
+														<select class="select2 edu_exam" required name="exam[]" data-placeholder="Examination">
 															<option value=""></option>
 														</select>
 													</td>
 													<td>
-														<select class="select2 edu_uni" name="university[]" data-placeholder="University">
+														<select class="select2 edu_uni" required name="university[]" data-placeholder="University">
 															<option value=""></option>
-															<option value="WY">Wyoming</option>
 														</select>
 													</td>
 													<td>
-														<select class="select2 edu_board" name="board[]" data-placeholder="Board">
+														<select class="select2 edu_board" required name="board[]" data-placeholder="Board">
 															<option value=""></option>
 														</select>
 													</td>
 													<td>
 														<input
+															required
 															type="text"
 															name="result[]"
 															class="form-control form-control-lg"
@@ -238,7 +192,7 @@
 										<label for="formFileSm" class="form-label">
 											<strong>Photo</strong>
 										</label>
-										<input class="form-control form-control-sm" id="photo" name="photo" type="file" />
+										<input class="form-control form-control-sm" required id="photo" name="photo" type="file" />
 
 									</div>
 									<div class="col-md-6 mb-3 pb-2">
@@ -246,7 +200,7 @@
 										<label for="formFileSm" class="form-label">
 											<strong>CV Attachment</strong>
 										</label>
-										<input class="form-control form-control-sm" id="cv" name="cv" type="file" />
+										<input class="form-control form-control-sm" required id="cv" name="cv" type="file" />
 
 									</div>
 								</div>
@@ -323,7 +277,7 @@
 								</div>
 
 								<div class="mt-4 pt-2">
-									<button class="btn btn-primary btn-lg ladda-button" id="submit-btn" data-style="expand-left" type="submit">
+									<button class="btn btn-primary btn-lg ladda-button" id="reg-btn" data-style="expand-left" type="submit">
 										<span class="ladda-label">Submit</span>
 									</button>
 								</div>
@@ -337,21 +291,12 @@
 	</section>
 
 	<script>
-
 		var board_list = exam_list = ins_list = [];
 		$(function () {
-
 			commonData('get_board_list', '.edu_board');
 			commonData('get_exam_list', '.edu_exam');
 			commonData('get_institute_list', '.edu_uni');
 
-			$( "input ,textarea" ).focusin(function() {
-				$( this ).next( "label" ).css({
-					"background": "#fff",
-					"padding-left": "8px",
-					"padding-right": "8px",
-				});
-			});
 			$(".select2").select2({
 				placeholder: $(".select2").data('placeholder'),
 				width: "100%",
@@ -366,32 +311,48 @@
 				}
 			});
 
-			//$('#registration-form').submit(function (e) {
-				$("#registration-form").validate({
-					submitHandler: function (form) {
-
-						e.preventDefault();
-
-						let form_data = new FormData(this);
-						$.ajax({
-							cache: false,
-							contentType: false,
-							processData: false,
-							data: form_data,
-							type: 'POST',
-							url: '<?=site_url("save_data");?>',
-							success: (res) => {
-								if (res) {
-									console.log(res);
-								}
-							},
-							error: (err) => {
-								alert(err.message);
+			$("#registration-form").validate({
+				submitHandler: function (form) {
+					var l = Ladda.create(document.querySelector('#reg-btn'));
+					l.start();
+					let form_data = new FormData(form);
+					$.ajax({
+						cache: false,
+						contentType: false,
+						processData: false,
+						data: form_data,
+						type: 'POST',
+						url: '<?=site_url("save_data");?>',
+						success: (res) => {
+							if (res) {
+								Swal.fire(
+									'Success',
+									'Information Successfully Submitted',
+									'success'
+								);
+								$('.select2').val(null).trigger('change');
+								$(form).trigger("reset");
+							} else {
+								Swal.fire(
+									'warning',
+									'NOT Submitted!',
+									'warning'
+								);
 							}
-						});
+							setTimeout(() => l.stop(),500);
+						},
+						error: (err) => {
+							Swal.fire(
+								'Error!!',
+								err.statusText,
+								'error'
+							);
+							setTimeout(() => l.stop(),500);
+						}
+					});
 
-					}
-			});
+				}
+		});
 
 		});
 

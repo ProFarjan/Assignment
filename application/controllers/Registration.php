@@ -66,6 +66,13 @@ class Registration extends CI_Controller {
 
 	public function save () {
 
+		$this->form_validation->set_rules('applicant_name', 'Applicant Name', 'required');
+		$this->form_validation->set_rules('email_address', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('division', 'Division', 'required');
+		$this->form_validation->set_rules('district', 'District', 'required');
+		$this->form_validation->set_rules('upazila', 'Upazila', 'required');
+		$this->form_validation->set_rules('full_address', 'full_address', 'required');
+
 		$applicant_name = $this->input->post('applicant_name');
 		$email_address = $this->input->post('email_address');
 		$mailing_address = $this->input->post('mailing_address');
@@ -75,63 +82,80 @@ class Registration extends CI_Controller {
 		$full_address = $this->input->post('full_address');
 		$language = $this->input->post('language');
 
-		$this->db->insert("db_registration", [
-			"name" => $applicant_name,
-			"email" => $email_address,
-			"mailing_address" => $mailing_address,
-			"division_id" => $division,
-			"district_id" => $district,
-			"upazila_id" => $upazila,
-			"address" => $full_address,
-			"language" => $language,
-		]);
-		$reg_id = $this->db->insert_id();
-		if (!empty($reg_id)) {
-
-			$exam = $this->input->post('exam');
-			$university = $this->input->post('university');
-			$board = $this->input->post('board');
-			$result = $this->input->post('result');
-			$edu = [];
-			if (count($exam) > 0) {
-				foreach ($exam as $k => $val) {
-					$education = [
-						'reg_id' => $reg_id,
-						'exam_id' => $val,
-						'university_id' => $university[$k],
-						'board_id' => $board[$k],
-						'result' => $result[$k]
-					];
-					$edu[] = $education;
+		if ($this->form_validation->run() == false){
+			$this->form_validation->set_message('form_invalid','Form All Fields Must Be Required!!');
+			echo false;
+		}else{
+			$reg_data = [
+				"name" => $applicant_name,
+				"email" => $email_address,
+				"mailing_address" => $mailing_address,
+				"division_id" => $division,
+				"district_id" => $district,
+				"upazila_id" => $upazila,
+				"address" => $full_address,
+				"language" => $language,
+			];
+			if (isset($_FILES['photo']) && !empty($_FILES['photo'])) {
+				$img_name = $this->save_file('photo');
+				if (array_key_exists('name',$img_name)) {
+					$reg_data['photo'] = $img_name['name'];
 				}
-				$this->db->insert_batch("reg_education",$edu);
 			}
-
-			$training = $this->input->post('training');
-			$training_data = [];
-			if (!empty($training)) {
-				$training_name = $this->input->post('training_name');
-				$training_details = $this->input->post('training_details');
-				$training_institute = $this->input->post('training_institute');
-				if (count($training_name) > 0) {
-					foreach ($training_name as $k => $val) {
-						$training_arr = [
+			if (isset($_FILES['cv']) && !empty($_FILES['cv'])) {
+				$img_name = $this->save_file('cv');
+				if (array_key_exists('name',$img_name)) {
+					$reg_data['cv'] = $img_name['name'];
+				}
+			}
+			$this->db->insert("db_registration", $reg_data);
+			$reg_id = $this->db->insert_id();
+			if (!empty($reg_id)) {
+				$exam = $this->input->post('exam');
+				$university = $this->input->post('university');
+				$board = $this->input->post('board');
+				$result = $this->input->post('result');
+				$edu = [];
+				if (count($exam) > 0) {
+					foreach ($exam as $k => $val) {
+						$education = [
 							'reg_id' => $reg_id,
-							'name' => $val,
-							'details' => $training_details[$k],
-							'institute' => $training_institute[$k],
+							'exam_id' => $val,
+							'university_id' => $university[$k],
+							'board_id' => $board[$k],
+							'result' => $result[$k]
 						];
-						$training_data[] = $training_arr;
+						$edu[] = $education;
 					}
-					$this->db->insert_batch("reg_training",$training_data);
+					$this->db->insert_batch("reg_education",$edu);
 				}
-			}
 
+				$training = $this->input->post('training');
+				$training_data = [];
+				if (!empty($training)) {
+					$training_name = $this->input->post('training_name');
+					$training_details = $this->input->post('training_details');
+					$training_institute = $this->input->post('training_institute');
+					if (count($training_name) > 0) {
+						foreach ($training_name as $k => $val) {
+							$training_arr = [
+								'reg_id' => $reg_id,
+								'name' => $val,
+								'details' => $training_details[$k],
+								'institute' => $training_institute[$k],
+							];
+							$training_data[] = $training_arr;
+						}
+						$this->db->insert_batch("reg_training",$training_data);
+					}
+				}
+				echo true;
+			}
 		}
 
 	}
 
-	function update () {
+	public function update () {
 		if ($this->session->has_userdata('is_login')) {
 			$this->form_validation->set_rules('applicant_name', 'Applicant Name', 'required');
 			$this->form_validation->set_rules('email_address', 'Email', 'required');
@@ -165,6 +189,24 @@ class Registration extends CI_Controller {
 				]);
 				echo true;
 			}
+		}
+	}
+
+	private function save_file ($name) {
+		$img = explode('.', $_FILES[$name]['name']);
+		$img_name = date('ymdHis').'.'.strtolower(end($img));
+		$config = array(
+			'upload_path' => './assets/uploads/',
+			'allowed_types' => 'jpg|png|jpeg|gif|pdf',
+			'max_size' => 2048,
+			'file_name' => $img_name,
+			'overwrite' => true,
+		);
+		$this->load->library('upload',$config);
+		if (!$this->upload->do_upload($name)){
+			return array('error'=>$this->upload->display_errors());
+		}else{
+			return array('name'=>$img_name);
 		}
 	}
 

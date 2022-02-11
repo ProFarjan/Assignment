@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Registration Form</title>
+	<title>Registration Admin Login</title>
 
 	<!-- Font Awesome -->
 	<link
@@ -56,21 +56,21 @@
 			<div class="row d-flex justify-content-center align-items-center h-100">
 				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
 					<div class="card shadow-2-strong" style="border-radius: 1rem;">
-						<div class="card-body p-5 text-center">
+						<div class="card-body p-5 text-left">
 
-							<h3 class="mb-5">Sign in</h3>
+							<h3 class="mb-5 text-center">Sign in</h3>
 							<form action="<?=site_url('login');?>" method="post">
-								<?php echo form_error('form_invalid'); ?>
+								<?php echo form_error('form_invalid', '<div class="alert alert-warning">', '</div>'); ?>
 								<div class="form-outline mb-4">
-									<?php echo form_error('email'); ?>
-									<input type="email" id="typeEmailX-2" name="email" class="form-control form-control-lg" />
+									<?php echo form_error('email', '<div class="alert alert-warning">', '</div>'); ?>
 									<label class="form-label" for="typeEmailX-2">Email</label>
+									<input type="email" id="typeEmailX-2" name="email" class="form-control form-control-lg" />
 								</div>
 
 								<div class="form-outline mb-4">
-									<?php echo form_error('password'); ?>
-									<input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" />
+									<?php echo form_error('password', '<div class="alert alert-warning">', '</div>'); ?>
 									<label class="form-label" for="typePasswordX-2">Password</label>
+									<input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" />
 								</div>
 
 								<!-- Checkbox -->

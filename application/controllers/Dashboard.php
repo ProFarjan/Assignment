@@ -47,11 +47,9 @@ class Dashboard extends CI_Controller {
 		}
 		$start = $this->input->get('start');
 		$limit = $this->input->get('limit');
-		if (!empty($start) && !empty($limit)) {
-			$this->db->limit($start, $limit);
-		}
-		$res = $this->db->get()->result_array();
+		$this->db->limit($limit, $start);
 
+		$res = $this->db->get()->result_array();
 		$total = $this->db->count_all('db_registration');
 
 		echo json_encode([
@@ -61,6 +59,11 @@ class Dashboard extends CI_Controller {
 		]);
 	}
 
+	public function logout () {
+		session_decode();
+		session_unset();
+		redirect('');
+	}
 
 
 }

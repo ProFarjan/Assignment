@@ -58,6 +58,7 @@ $route['get_exam_list'] = 'registration/getExamNameList';
 $route['get_institute_list'] = 'registration/getInstituteList';
 $route['save_data'] = 'registration/save';
 $route['update_user_data'] = 'registration/update';
+$route['logout'] = 'dashboard/logout';
 
 $route['auth_login'] = 'Login/auth';
 $route['get_reg_list'] = 'Dashboard/getRegistrationData';
